@@ -1,0 +1,22 @@
+/*************CHAT ******************/
+#header{background:#1abc9c;height:50px;}
+#chat > #header > p{color:white;font-size:15px;width:40%;margin-left:10%;height:50px;padding-top:10px;text-transform:uppercase;}
+#header i{color:white;width:20%;}
+#header i, #header p{float:left;height:25px;padding-top:12.5px;}
+#chatroom{height:390px;}
+#inpuroom{height:50px;}
+#inpuroom > .fa{width:15%;height:50px;padding-top:12.5px;}
+#inpuroom input{width:70%;border:none;background-color:#cfd8dc;height:50px;}
+#inpuroom .fa, #inpuroom input{float:left;color:gray;}
+#chat .fa{text-align:center;}
+
+.fa-camera{background:rgba(39, 174, 96,0.5);}
+.fa-paper-plane-o{background:rgba(241, 196, 15,0.5);}
+#chatroom ul{width:100%;height:300px;}
+#chatroom li{width:70%;min-height:60px;color:#34495e;margin-top:10px;padding-top:10px;padding-left:5px;border-radius:10px;}
+#chatroom li > div{display:inline-block;}
+.textarea{width:60%;margin-left:2%;}
+.leftpushed{background:rgba(149, 165, 166,0.1);margin-left:5%;}
+.rightpushed{background:rgba(149, 165, 166,0.3);margin-left:25%;}
+.leftpushed .profilePic{display:inline-block;}
+.profilePic{width:30px;height:30px;border-radius:50%;}
