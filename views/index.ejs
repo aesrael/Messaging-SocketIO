@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SocketIO</title>
-    <link rel='stylesheet' href='css/style.css' />
-  </head>
-  <body>
-    <div id="chat">
-      <div class="card" id="header">
-        <p>Messaging SocketIO</p><i class="fa fa-long-arrow-left" aria-hidden="true"></i></div>
-      <div id="chatroom">
-        <ul>
-          <li class="leftpushed">
-            <div class="textarea">What'z gud bey?</div>
-          </li>
-          <li class="rightpushed">
-            <div class="textarea">My Money!...</div>
-          </li>
-        </ul>
-      </div>
-      <div id="inpuroom"><i class="fa fa-camera" aria-hidden="true"></i><input type="text" id="message"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></div>
-    </div>
 
-    <script src='js/app.js'></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>ChatIO</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div id="mario-chat">
+    <h2>ChatIO</h2>
+    <div id="chat-window">
+      <div id="output"></div>
+      <div id="feedback"></div>
+    </div>
+    <input id="handle" type="text" placeholder="Handle" />
+    <input id="message" type="text" placeholder="Message" />
+    <button id="send">Send</button>
+  </div>
+
+
+</body>
+<script src="js/chat.js"></script>
+
 </html>
