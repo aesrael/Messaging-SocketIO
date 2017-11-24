@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ChatIO</title>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>-->
+    <script src="js/socket.io.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mario-chat">
+        <div>
+            <h2 class="page-header">ChatIO SignUp</h2>
+            <form method="post" action="/api/signup">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" value='' placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" value='' placeholder="Password">
+                </div>
+                <button type="submit">Sign up!</button> <a href='/api/login'>Already have an accout? log in</a>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="js/chat.js"></script>
+
+</html>

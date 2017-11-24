@@ -6,14 +6,22 @@ var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser');
 var socket = require('socket.io')
+var flash = require('connect-flash');
+var bcrypt = require('bcryptjs');
+var session = require('express-session');
+var expressValidator = require('express-validator');
+var passport=require('passport')
+var LocalStategy = require('passport-local').Strategy;
+
 var creds = require('./creds.js')
 
 const index = require('./routes/index');
+const api=require('./routes/api.js')
 
 // App setup
 var app = express();
 var server = app.listen(8080, function () {
-  console.log('listening for requests on port 8080,');
+  console.log('listening at 8080,');
 });
 
 // Socket setup & pass server
@@ -59,8 +67,40 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// Express Session
+app.use(session({secret: 'secret', saveUninitialized: true, resave: true}));
 
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function (param, msg, value) {
+    const namespace = param.split('.'),
+      root = namespace.shift(),
+      formParam = root;
+
+    while (namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {param: formParam, msg: msg, value: value};
+  }
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect Flash
+app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
 app.use('/', index);
+app.use('/api', api);
 
 app.use(function (req, res, next) {
   const err = new Error('Not Found');
@@ -81,6 +121,3 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-
-var express = require('express');
-var socket = require('socket.io');
