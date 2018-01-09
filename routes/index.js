@@ -9,20 +9,21 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', isAutenticated, function (req, res) {
-  res.render('index');
+
+  res.render('index',{user:req.user});
 });
-router.get('/signup', function (req, res) {
-  res.render('register');
-});
-router.get('/login', function (req, res) {
-  res.render('login');
-});
+// router.get('/register', function (req, res) {
+//   res.render('register');
+// });
+// router.get('/login', function (req, res) {
+//   res.render('login');
+// });
 
 function isAutenticated(req, res, next) {
   if (req.user) {
     next()
   }
-  res.redirect('/login')
+  res.redirect('/api/login')
 }
 
 module.exports = router;

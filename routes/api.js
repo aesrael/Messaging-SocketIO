@@ -1,101 +1,71 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
-var passport = require('passport')
-var LocalStategy = require('passport-local').Strategy;
-var passportConfig = require('../config/passport')
+var passportConfig = require('../config/passport');
+var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
 
+//custom modules
 var User = require('../models/user');
 
-/* GET users listing. */
-router.get('/api', function (req, res) {
-    User
-        .find({}, function (err, users) {
-            //res.send(users);
-            res.render('index');
-        })
+//signup
+router.get('/register', function (req, res) {
+    res.render('register');
 });
 
-router.get('/users', function (req, res) {
-    User
-        .find({}, function (err, users) {
-            res.send(users);
-            // res.render('index');
-        })
+//get login
+router.get('/login', function (req, res) {
+    res.render('login');
 });
+router.get('/register', function (req, res) {
+    res.render('register');
+});
+//post signup information
+router.post('/register', function (req, res) {
 
-//Get user by username
-router.get('/:username', function (req, res) {
-    User
-        .findUserByUsername(req.params.username, function (err, user) {
+    var {username, password} = req.body;
+    //req.body validation
+    req
+        .checkBody('username', 'name is required')
+        .notEmpty();
+    req
+        .checkBody('password', 'password is required')
+        .notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        res.render('register', {errors: errors});
+    } else {
+        var newUser = new User({username, password})
+        User.createUser(newUser, function (err, user) {
+            if (err) {
+                throw err
+            };
             console.log(user);
-            res.send(user);
-        })
-});
-//get User by Id
-/*router.get('/api/:id', function (req, res) {
-  User.findUserById(req.params.id, function (err, user) {
-    console.log(user);
-    res.send(user);
-  })
-});*/
+        });
+        req.flash('success_msg', 'you are registered to login');
 
-router.post('/signup', function (req, res) {
-    console.log(req.body);
-    //res.send({json:'post'});
-    const {username, password} = req.body;
+        res.redirect('/api/login');
+    }
+})
+passportConfig.passport();
 
-    const newUser = User({username, password});
-
-    User.createUser(newUser, function (err, user) {
-        if (err) 
-            throw err;
-        console.log(user);
-    });
-    res.send('done!, user created :)');
-});
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/users/login',
+    failureRedirect: '/api/login',
     failureFlash: true
 }), function (req, res) {
     res.redirect('/');
 });
 
-router.put('/api/update/:id', function (req, res) {
-    User
-        .updateUser(req.params.id, req.body, function (err, user) {
-            if (err) {
-                throw err
-            };
-            User.findUserById(req.params.id, function (err, user) {
-                if (err) {
-                    throw err
-                };
-                console.log(user);
-                res.send(user);
-            })
-        })
-});
-
-router.delete('/api/:id', function (req, res) {
-    User
-        .deleteUser({
-            _id: req.params.id
-        }, function (err, user) {
-            if (err) 
-                throw err;
-            console.log(user);
-            res.send(user);
-        })
-})
 //logout
-router.get('/logout', function (req, res) {
-    req.logout();
 
-    req.flash('success_msg', 'You are logged out');
+router
+    .get('/logout', function (req, res) {
+        req.logout();
 
-    res.redirect('/users/login');
-})
+        req.flash('success_msg', 'You are logged out');
 
+        res.redirect('/api/login');
+    })
 module.exports = router;

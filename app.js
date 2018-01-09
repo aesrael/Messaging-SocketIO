@@ -67,6 +67,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api',express.static(path.join(__dirname, 'public')));
 // Express Session
 app.use(session({secret: 'secret', saveUninitialized: true, resave: true}));
 
