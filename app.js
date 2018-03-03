@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
 
 });
 
-const mongoDb = creds.creds.mongoDb
+const mongoDb = creds.creds.mlab;
 mongoose.connect(mongoDb, {useMongoClient: true});
 
 const db = mongoose.connection;
